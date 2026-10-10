@@ -309,6 +309,7 @@ document.querySelectorAll('.modes button').forEach(b => b.onclick = () => setMod
 document.addEventListener('keydown', e => {
   if (e.target.matches('input')) return;
   if (e.ctrlKey || e.metaKey || e.altKey) return; // leave browser shortcuts like Ctrl+S alone
+  if (e.repeat) return; // holding a key down shouldn't toggle start/pause over and over
   const key = e.key.toLowerCase();
   if (e.code === 'Space') { e.preventDefault(); $('toggle').click(); }
   else if (key === 'r') $('reset').click();
