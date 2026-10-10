@@ -1,14 +1,31 @@
 # Focus Timer
 
-A Pomodoro-style focus timer with a progress ring, a task list and daily stats. It's a single HTML file with no build step and no dependencies.
+A Pomodoro-style focus timer with a progress ring, a task list and daily stats. It's plain HTML, CSS and JavaScript (ES modules) with no build step and no dependencies.
 
 ## Getting started
 
-Open `index.html` in any modern browser:
+The scripts are ES modules, which browsers won't load from a `file://` page, so serve the folder over HTTP instead of opening `index.html` directly. Any static server works, for example:
 
 ```bash
-start focus-timer/index.html
+python -m http.server 8000 --directory focus-timer
 ```
+
+Then open <http://localhost:8000>.
+
+## Project layout
+
+| File | Contents |
+|---|---|
+| `index.html` | Markup; loads `styles.css` and `js/main.js` |
+| `styles.css` | All styles, including the mode accents and dark mode |
+| `js/config.js` | Durations, long-break cadence and storage key |
+| `js/store.js` | Saved data (`localStorage`) |
+| `js/timer.js` | Timer state, modes, start / pause / finish, ring and time display |
+| `js/stats.js` | Today's stats and the day streak |
+| `js/tasks.js` | Task list and the add-task form |
+| `js/sound.js` | The end-of-session chime |
+| `js/dom.js` | `$` lookup helper |
+| `js/main.js` | Buttons, keyboard shortcuts and startup |
 
 ## Features
 
@@ -28,17 +45,17 @@ start focus-timer/index.html
 
 ## Data storage
 
-Tasks and stats are saved in the browser's `localStorage` under the key `focus-timer-v1`. They stay on your machine, in the browser you used.
+Tasks and stats are saved in the browser's `localStorage` under the key `focus-timer-v1`. They stay on your machine, in the browser you used. Storage is per address, so data saved while the page was opened from a file, or from a different port, won't show up at `http://localhost:8000`.
 
 If storage is unavailable (for example in a private window or in some embedded previews), the timer still works, but nothing is saved between visits.
 
 ## Customising
 
-The durations are set at the top of the script in `index.html`:
+The durations are set in `js/config.js`:
 
 ```js
-const DURATIONS = { focus: 25, short: 5, long: 15 }; // minutes
-const LONG_EVERY = 4;
+export const DURATIONS = { focus: 25, short: 5, long: 15 }; // minutes
+export const LONG_EVERY = 4;
 ```
 
 ## Ideas for next steps
