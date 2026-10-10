@@ -308,9 +308,11 @@ $('skip').onclick = () => finish(true);
 document.querySelectorAll('.modes button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
 document.addEventListener('keydown', e => {
   if (e.target.matches('input')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return; // leave browser shortcuts like Ctrl+S alone
+  const key = e.key.toLowerCase();
   if (e.code === 'Space') { e.preventDefault(); $('toggle').click(); }
-  else if (e.key === 'r') $('reset').click();
-  else if (e.key === 's') $('skip').click();
+  else if (key === 'r') $('reset').click();
+  else if (key === 's') $('skip').click();
 });
 
 setMode('focus');
